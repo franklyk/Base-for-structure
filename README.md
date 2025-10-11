@@ -13,9 +13,9 @@
 
     Em primeiro lugar devemos criar o par de chaves abra o terminal e cole:
 
-    '''
+    ```
     ssh-keygen -t ed25519 -C "your_email@example.com"
-    '''
+    ```
 
     A saída deve conter algo assim:
 

@@ -11,7 +11,7 @@
     - Servidor SSH (openSSH-server);
     - Interface grafica para gerenciamento da base de dados (phpMyAdmin);
 
-    Em primeiro lugar devemos criar o par de chaves abra o terminal e cole:
+    Em primeiro lugar devemos criar o par de chaves abra o terminal e cole
 
     ```
     ssh-keygen -t ed25519 -C "your_email@example.com"

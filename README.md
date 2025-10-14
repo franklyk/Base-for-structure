@@ -50,8 +50,9 @@ ssh-add ~/.ssh/id_ed25519
 > Agora será necessário adcionar sua chave pública à sua conta do github, para que possa ser validada e utilizada mais facilmente no momento em que estiver instalando sua MÁQUINA VIRTUAL(VM), pois é nesse momento que a instalação pergunta se quer adicionar sua chave publica a o servidor, diminuindo a complexidade de instalação das chaves.
 
 
+Partindo do ponto onde você já está com sua VM instalada e com as chaves SSH devidamente configuradas, é importante lembrar que, antes de executar qualquer tarefa no terminal linux, devemos realizar  as atualizações básicas, abra o terminal e cole: 
 
-
-
-
-
+```
+sudo apt update
+sudo apt upgrade -y
+```

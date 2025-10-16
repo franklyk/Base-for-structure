@@ -49,10 +49,54 @@ ssh-add ~/.ssh/id_ed25519
 > [!NOTE]
 > Agora será necessário adcionar sua chave pública à sua conta do github, para que possa ser validada e utilizada mais facilmente no momento em que estiver instalando sua MÁQUINA VIRTUAL(VM), pois é nesse momento que a instalação pergunta se quer adicionar sua chave publica a o servidor, diminuindo a complexidade de instalação das chaves.
 
+## Acessando a VM
 
-Partindo do ponto onde você já está com sua VM instalada e com as chaves SSH devidamente configuradas, é importante lembrar que, antes de executar qualquer tarefa no terminal linux, devemos realizar  as atualizações básicas, abra o terminal e cole: 
+Partindo do ponto onde você já está com sua VM instalada, nesse caso utilizando UBUNTU 24.04, temos que acessa-la utilizando SSh, cole o comando:
+```
+ssh nome_de_usuario@endereco_do_servidor
+```
+Você deverá seguir as instruções da sua distribuição. 
+
+Pronto, ja podemos usar o terminal do sistema hospedeiro para digitar os comandos. 
+
+É importante lembrar que, antes de executar qualquer tarefa no terminal linux, devemos realizar  as atualizações básicas, cole: 
 
 ```
 sudo apt update
 sudo apt upgrade -y
 ```
+Com isso já podemos instalar o servidor WEB Apache2:
+```
+sudo apt install apache2
+```
+Você pode verificar se o Apache está em execução acessando o endereço IP do seu servidor em um navegador da web. Você deverá ver a página de boas-vindas padrão do Apache.
+
+A seguir instalamos o servidor de banco de dados MySql, também o PHP e dependências:
+```
+sudo apt install php libapache2-mod-php php-mysql
+```
+Após instalar o PHP e seu módulo Apache, reinicie o serviço Apache para que as alterações entrem em vigor:
+```
+sudo systemctl restart apache2
+```
+
+Teste o PHP (opcional, mas recomendado):
+Crie um arquivo PHP simples para verificar se o PHP está funcionando corretamente com o Apache:
+```
+sudo nano /var/www/html/info.php
+```
+
+Adicione o seguinte conteúdo ao "info.php" arquivo:
+```
+<?php
+phpinfo();
+?>
+```
+
+Salve e feche o arquivo. Em seguida, abra seu navegador e navegue até http://your_server_ip/info.php(substitua your_server_ippelo endereço IP real do seu servidor ou, localhost se estiver instalando localmente). Você deverá ver uma página detalhada exibindo sua configuração de PHP.
+```
+sudo apt install phpmyadmin php-mbstring
+```
+
+Após a conclusão da instalação, você pode acessar o phpMyAdmin no seu navegador. Use o endereço http://seu_servidor/phpmyadmin, substituindo "seu_servidor" pelo nome do seu servidor ou endereço IP.
+Faça login com o usuário root do MySQL e a senha que você configurou durante a instalação. 

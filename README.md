@@ -98,5 +98,40 @@ Salve e feche o arquivo. Em seguida, abra seu navegador e navegue até http://yo
 sudo apt install phpmyadmin php-mbstring -y
 ```
 
+Alternativamente você pode simplesmente rodar o comando:
+```
+sudo apt install apache2 php php-mbstring libapache2-mod-php php-mysql mysql-server phpmyadmin -y
+```
+
+Após a conclusão devemos fazer a ligação entre o apache e o phpmyadmin para que possa funcionar:
+```
+sudo nano apache2.conf
+```
+
+e nesse arquivo devemos incluir o endereço:
+```
+include /etc/phpmyadmin/apache.conf
+```
+
+Feito isso devemos criar um usuario no mysql:
+```
+CREATE USER 'nome_usuario'@'%' IDENTIFIED BY 'senha';
+```
+Lembrando que o símbolo "&" serve como um coringa, pois pode assumir endereçõs_ip variados
+
+GRANT ALL PRIVILEGES ON *.* TO 'usuario'@'%';
+
 Após a conclusão da instalação, você pode acessar o phpMyAdmin no seu navegador. Use o endereço http://seu_servidor/phpmyadmin, substituindo "seu_servidor" pelo nome do seu servidor ou endereço IP.
 Faça login com o usuário root do MySQL e a senha que você configurou durante a instalação. 
+
+
+Uma alernativa viável ao phpmyadmin é o mysql-workbench, que também é uma interfacee gráfica amigável, que facilita o acesso ao banco de dados, no seu host cole:
+```
+sudo apt install mysql-workbench-community
+```
+Caso não funcione você pode tentar:
+```
+sudo snap install mysql-workbench-community
+```
+
+

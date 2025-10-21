@@ -77,7 +77,7 @@ sudo apt install php libapache2-mod-php php-mysql -y
 ```
 Após instalar o PHP e seu módulo Apache, reinicie o serviço Apache para que as alterações entrem em vigor:
 ```
-sudo systemctl restart apache2 -y
+sudo systemctl restart apache2
 ```
 
 Teste o PHP (opcional, mas recomendado):
@@ -105,19 +105,23 @@ sudo apt install apache2 php php-mbstring libapache2-mod-php php-mysql mysql-ser
 
 Após a conclusão devemos fazer a ligação entre o apache e o phpmyadmin para que possa funcionar:
 ```
-sudo nano apache2.conf
+sudo nano /etc/apache2/apache2.conf
 ```
 
 e nesse arquivo devemos incluir o endereço:
 ```
 include /etc/phpmyadmin/apache.conf
 ```
+Finalize o trabalho reiniciando o servidor:
+```
+sudo systemctl restart apache2
+```
 
 Feito isso devemos criar um usuario no mysql:
 ```
 CREATE USER 'nome_usuario'@'%' IDENTIFIED BY 'senha';
 ```
-Lembrando que o símbolo "&" serve como um coringa, pois pode assumir endereçõs_ip variados
+Lembrando que o símbolo "%" serve como um coringa, pois pode assumir endereçõs_ip variados
 
 GRANT ALL PRIVILEGES ON *.* TO 'usuario'@'%';
 

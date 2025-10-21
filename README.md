@@ -119,11 +119,24 @@ sudo systemctl restart apache2
 
 Feito isso devemos criar um usuario no mysql:
 ```
+sudo mysql
+```
+Isso fa com que você acesse o mysql como root.
+
+Para definir o novo usuario, cole no terminal do mysql:
+```
 CREATE USER 'nome_usuario'@'%' IDENTIFIED BY 'senha';
 ```
-Lembrando que o símbolo "%" serve como um coringa, pois pode assumir endereçõs_ip variados
+Lembrando que o símbolo "%" serve como um coringa, pois pode assumir endereçõs_ip variados.
 
+O próximo comando garante os privilegios fornecidos ao novo usuário, lembrando que fornecer tais privilégios devem ser observados os limites de segurança, ou seja, nunca deve-se conceder "TODOS OS PRIVILÉGIOS" (ALL PRIVILEGES): 
+```
 GRANT ALL PRIVILEGES ON *.* TO 'usuario'@'%';
+```
+Para que as alterações tenham efeito imediatamente:
+```
+FLUSH PRIVILEGES;
+```
 
 Após a conclusão da instalação, você pode acessar o phpMyAdmin no seu navegador. Use o endereço http://seu_servidor/phpmyadmin, substituindo "seu_servidor" pelo nome do seu servidor ou endereço IP.
 Faça login com o usuário root do MySQL e a senha que você configurou durante a instalação. 

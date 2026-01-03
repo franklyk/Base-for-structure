@@ -7,6 +7,7 @@ O modelo a ser implementado é meramente um teste mas com um potencial de ser us
 - VirtualBox;
 - Máquina Virtual (Ubuntu 24.04);
 - Par de Chaves (PÚBLICA/PRIVADA);
+- Docker;
 - Servidor WEB (APACHE);
 - Servidor de banco de dados (MYSQL);
 - php 8.3;
@@ -56,12 +57,158 @@ ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub
 ```
 
+> [!NOTE]
+> Utilize a chave copiada para construir o acesso via SSH com o github, acesse sua conta e siga os passos que serão apontados nas configurações
+> Nos passos a seguir, construiremos o servidor na máquina virtual escolhida. Neste ponto será necessário que o usuário já saiba instalar sua VM na Virtual Box 
+
 ## Acessando a VM
 
-Partindo do ponto onde você já está com sua VM instalada e com a chave publica devidamente configurada, devemos acessa-la utilizando SSh. Cole o comando:
+> [!NOTE]
+> A idéia aqui é que esse tutorial se pareça ao máximo com um projeto rodando em produção.
+
+Partindo do ponto onde você já está com sua VM instalada e com a chave publica/privada devidamente configurada, devemos acessa-la utilizando SSH. Cole o comando:
+
 ```
 ssh nome_de_usuario@endereco_do_servidor
 ```
+
+### Vamos configurar o arquivo /etc/hosts 
+
+```
+sudo nano /etc/hosts
+```
+
+Adicione as seguintes linhas (O endereço IP tão bem como o URL mencionados neste exemplo são meramente ilustrativos):
+
+```
+192.168.2.35 my_project.com
+192.168.2.35 www.my_project.com
+```
+
+Tal mudança faz com que possamos usar o nome de domínho (nesse caso "my_project.com"), então o acesso via ssh se torna:
+
+```
+ssh nome_de_usuario@my_project.com
+```
+
+> [!NOTE]
+> OK! Se tudo correu bem, você já estará dentro da sua máquina virtual, podendo rodar os comandos a partir do terminal do seu host...
+
+Vamos correr a primeira atualização para que possamos trabalhar sem problemas:
+
+```
+sudo apt update && sudo apt upgrade -y
+```
+
+Prontinho agora podemos continuar...
+
+Então vamos instalar o Docker engine:
+
+> [!Observação]
+> Essa parte de comandos foi retirada da documentação oficial do docker, consulte   https://docs.docker.com/engine/install/ubuntu/   para mais informações
+
+Primeiramente devemos configurar os repositório docker em apt:
+
+```
+
+# Add Docker's official GPG key:
+
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+
+```
+
+Agora sim podemos instalar o docker-engine propriamente dito:
+```
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+> [!Observação]
+> O serviço Docker inicia automaticamente após a instalação. Para verificar se o Docker está em execução, utilize:
+```
+sudo systemctl status docker
+```
+Alguns sistemas podem ter esse comportamento desativado e exigirão uma inicialização manual:
+```
+sudo systemctl start docker
+```
+
+Verifique se a instalação foi bem-sucedida executando a hello-worldimagem:
+```
+sudo docker run hello-world
+
+```
+Este comando baixa uma imagem de teste e a executa em um contêiner. Quando o contêiner é executado, ele exibe uma mensagem de confirmação e é encerrado.
+
+
+## Gerenciando o Docker sem "sudo"
+
+Esses procedimentos opcionais pós-instalação descrevem como configurar sua máquina host Linux para funcionar melhor com o Docker.
+
+Se você não quiser preceder o dockercomando com `--no sudo-docker`, crie um grupo Unix chamado `docker` dockere adicione usuários a ele. Quando o daemon do Docker for iniciado, ele criará um socket Unix acessível aos membros do dockergrupo. Em algumas distribuições Linux, o sistema cria esse grupo automaticamente ao instalar o Docker Engine usando um gerenciador de pacotes. Nesse caso, não é necessário criar o grupo manualmente.
+
+Para criar o dockergrupo e adicionar seu usuário:
+```
+sudo groupadd docker
+```
+Adicione seu usuário ao docker grupo.
+
+```
+sudo usermod -aG docker $USER
+```
+
+Saia da sua conta e entre novamente para que sua participação no grupo seja reavaliada.
+
+
+> [!Observação]
+> Se você estiver executando o Linux em uma máquina virtual, pode ser necessário reiniciar a máquina virtual para que as alterações entrem em vigor.
+
+
+Você também pode executar o seguinte comando para ativar as alterações nos grupos:
+
+```
+newgrp docker
+```
+Verifique se você consegue executar docker comandos sem sudo.
+
+```
+docker run hello-world
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+O CONTEÚDO ABAIXO DESTA LINHA SERA GUARDADO DE EXEMPLO PARA A CONTINUAÇÃO DO PROJETO POR HORA QUEIRA DESCONSIDERAR!!!
+
+
+
+
+
 Você deverá seguir as instruções da sua distribuição. 
 
 Pronto, já podemos usar o terminal do host para digitar os comandos. 
